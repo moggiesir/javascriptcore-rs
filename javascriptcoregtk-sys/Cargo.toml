@@ -15,20 +15,20 @@ shell-words = "0.1.0"
 tempdir = "0.3"
 
 [features]
+dox = []
 v2_22 = []
 v2_24 = ["v2_22"]
-dox = []
 
 [lib]
-name = "javascriptcore_sys"
+name = "javascriptcoregtk_sys"
 
 [package]
 authors = ["The Gtk-rs Project Developers"]
 build = "build.rs"
-description = "Sys functions for the Rust bindings of the javacriptcore library"
+description = "Sys functions for the Rust bindings of the javacriptcoregtk library"
 homepage = "http://gtk-rs.org"
 keywords = ["javascript", "gtk-rs", "gnome"]
 license = "MIT"
-name = "javascriptcore-rs-sys"
+name = "javascriptcoregtk-rs-sys"
 repository = "https://github.com/gtk-rs/javascriptcore-rs"
 version = "0.1.1"
