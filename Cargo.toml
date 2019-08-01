@@ -1,20 +1,49 @@
-[package]
-name = "javascriptcore-rs"
-version = "0.5.0"
-authors = ["The Gtk-rs Project Developers"]
+[build-dependencies]
+pkg-config = "0.3.7"
 
-description = "Rust bindings for the javacriptcore library"
-repository = "https://github.com/gtk-rs/javascriptcore-rs"
-license = "MIT"
-homepage = "http://gtk-rs.org"
-keywords = ["javascript", "gtk-rs", "gnome"]
+[dependencies]
+bitflags = "^1.0"
+lazy_static = "1.0"
+libc = "^0.2"
+glib-sys = "0.8.0"
+gobject-sys = "0.8.0"
+gtk = "0.6.0"
+glib = "0.7.1"
+#glib-sys = { git = "https://github.com/gtk-rs/sys" }
+#gobject-sys = { git = "https://github.com/gtk-rs/sys" }
+#gtk = { git = "https://github.com/gtk-rs/gtk" }
 
-[lib]
-name = "javascriptcore"
-
-[dependencies.glib]
-git = "https://github.com/gtk-rs/glib"
+#[dependencies.glib]
+#git = "https://github.com/gtk-rs/glib"
 
 [dependencies.javascriptcore-rs-sys]
 path = "./javascriptcore-sys"
 version = "0.1.1"
+
+#[dependencies.javascriptcoregtk-rs-sys]
+#path = "./javascriptcoregtk-sys"
+#version = "0.1.0"
+
+[dev-dependencies]
+shell-words = "0.1.0"
+tempdir = "0.3"
+# Add deps on syn and quote to do macros for exporting to JS.
+
+[features]
+dox = []
+v2_22 = ["javascriptcore-rs-sys/v2_22"]
+v2_24 = ["v2_22", "javascriptcore-rs-sys/v2_24"]
+
+[lib]
+name = "javascriptcore"
+
+[package]
+authors = ["The Gtk-rs Project Developers"]
+build = "build.rs"
+description = "Rust bindings for the javacriptcore library"
+homepage = "http://gtk-rs.org"
+keywords = ["javascript", "gtk-rs", "gnome"]
+license = "MIT"
+name = "javascriptcore-rs"
+repository = "https://github.com/gtk-rs/javascriptcore-rs"
+version = "0.5.0"

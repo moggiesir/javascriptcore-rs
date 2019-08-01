@@ -1,0 +1,152 @@
+[crate_name_overrides]
+"java_script_core" = "javascriptcore"
+
+[options]
+girs_dir = "gir-files"
+library = "JavaScriptCore"
+version = "4.0"
+work_mode = "normal"
+target_path = "."
+generate_safety_asserts = true
+single_version_file = true
+
+external_libraries = [
+    "GObject",
+    "GLib",
+]
+
+generate = [
+  "JavaScriptCore.CheckSyntaxMode",
+  "JavaScriptCore.CheckSyntaxResult",
+  "JavaScriptCore.ClassDeletePropertyFunction",
+  "JavaScriptCore.ClassEnumeratePropertiesFunction",
+  "JavaScriptCore.ClassGetPropertyFunction",
+  "JavaScriptCore.ClassHasPropertyFunction",
+  "JavaScriptCore.ClassSetPropertyFunction",
+  "JavaScriptCore.ClassVariadicFunction",
+  "JavaScriptCore.Constructor",
+  "JavaScriptCore.ExceptionHandler",
+  "JavaScriptCore.Getter",
+  "JavaScriptCore.OptionsFunc",
+  # TODO: This is new in v2_24, but generates code that doesn't guard the use.
+  "JavaScriptCore.OptionType",
+  "JavaScriptCore.PropertyGetter",
+  "JavaScriptCore.PropertySetter",
+  "JavaScriptCore.Setter",
+  "JavaScriptCore.ValuePropertyFlags",
+  "JavaScriptCore.VariadicFunction",
+  "JavaScriptCore.VirtualMachine",
+  "JavaScriptCore.WeakValue",
+]
+
+manual = [
+  "GLib.Bytes",
+  "GLib.DestroyNotify",
+  "GLib.OptionGroup",
+  "GObject.Callback",
+  "JavaScriptCore.ClassVTable",
+  "JavaScriptCore.GlobalContextRef",
+]
+
+ignore = [
+  "JavaScriptCore.StringRef",
+  "JavaScriptCore.ValueRef",
+]
+
+[[object]]
+name = "JavaScriptCore.*"
+status = "generate"
+    [[object.function]]
+    pattern = "Value.+"
+    # Non-glib functions need to be handled manually.
+    ignore = true
+    [[object.function]]
+    pattern = "Global.+"
+    # Non-glib functions need to be handled manually.
+    ignore = true
+    [[object.function]]
+    name = "options_get_option_group"
+    # Needs GLib.OptionGroup.
+    ignore = true
+
+[[object]]
+name = "JavaScriptCore.Context"
+status = "generate"
+    [[object.function]]
+    name = "evaluate_in_object"
+    # Manually implemented. Uses TypeParameters.
+    ignore = true
+    [[object.function]]
+    name = "register_class"
+    # Manually implemented. Needs TypeParameter to be safe.
+    ignore = true
+    [[object.function]]
+    name = "throw_printf"
+    # Uses varargs for formatting.
+    ignore = true
+    [[object.function]]
+    name = "throw_with_name_printf"
+    # Uses varargs for formatting.
+    ignore = true
+
+[[object]]
+name = "JavaScriptCore.Class"
+# Needs TypeParameter to be safe.
+status = "manual"
+    [[object.function]]
+    pattern = "add_constructor.*"
+    # Manually implemented. Uses unsafe pointers.
+    ignore = true
+    [[object.function]]
+    pattern = "add_method.*"
+    # Manually implemented. Uses unsafe pointers.
+    ignore = true
+    [[object.function]]
+    name = "add_property"
+    # Manually implemented. Uses unsafe pointers.
+    ignore = true
+
+[[object]]
+name = "JavaScriptCore.Exception"
+status = "generate"
+    [[object.function]]
+    pattern = ".*printf.*"
+    # Uses varargs formatting.
+    ignore = true
+
+[[object]]
+name = "JavaScriptCore.Value"
+status = "generate"
+    [[object.function]]
+    name = "new_array"
+    # Uses varargs.
+    ignore = true
+    [[object.function]]
+    name = "new_array_from_garray"
+    # Manually implemented. Uses GPtrArray.
+    ignore = true
+    [[object.function]]
+    pattern = "new_function.*"
+    # Manually implemented. Uses unsafe pointers.
+    ignore = true
+    [[object.function]]
+    name = "new_object"
+    # Manually implemented. Uses unsafe pointers.
+    ignore = true
+    [[object.function]]
+    name = "constructor_call"
+    # Uses varargs.
+    ignore = true
+    [[object.function]]
+    name = "function_call"
+    # Uses varargs.
+    ignore = true
+    [[object.function]]
+    name = "object_invoke_method"
+    # Uses varargs.
+    ignore = true
+    [[object.function]]
+    name = "object_define_property_accessor"
+    # Manually implemented. Code generation doesn't seem to handle two closures in user_data.
+    ignore = true
+

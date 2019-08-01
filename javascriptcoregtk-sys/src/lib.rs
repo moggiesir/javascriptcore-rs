@@ -41,7 +41,7 @@ pub const JSC_OPTION_RANGE_STRING: JSCOptionType = 6;
 
 // Constants
 pub const JSC_MAJOR_VERSION: c_int = 2;
-pub const JSC_MICRO_VERSION: c_int = 2;
+pub const JSC_MICRO_VERSION: c_int = 1;
 pub const JSC_MINOR_VERSION: c_int = 24;
 pub const JSC_OPTIONS_USE_DFG: *const c_char = b"useDFGJIT\0" as *const u8 as *const c_char;
 pub const JSC_OPTIONS_USE_FTL: *const c_char = b"useFTLJIT\0" as *const u8 as *const c_char;
@@ -60,21 +60,19 @@ pub type JSCClassEnumeratePropertiesFunction = Option<unsafe extern "C" fn(*mut 
 pub type JSCClassGetPropertyFunction = Option<unsafe extern "C" fn(*mut JSCClass, *mut JSCContext, gpointer, *const c_char) -> *mut JSCValue>;
 pub type JSCClassHasPropertyFunction = Option<unsafe extern "C" fn(*mut JSCClass, *mut JSCContext, gpointer, *const c_char) -> gboolean>;
 pub type JSCClassSetPropertyFunction = Option<unsafe extern "C" fn(*mut JSCClass, *mut JSCContext, gpointer, *const c_char, *mut JSCValue) -> gboolean>;
-pub type JSCClassVariadicFunction = Option<unsafe extern "C" fn(gpointer, *mut glib::GPtrArray, gpointer) -> *mut JSCValue>;
-pub type JSCConstructor = Option<unsafe extern "C" fn(*mut glib::GPtrArray, gpointer) -> gpointer>;
 pub type JSCExceptionHandler = Option<unsafe extern "C" fn(*mut JSCContext, *mut JSCException, gpointer)>;
-pub type JSCGetter = Option<unsafe extern "C" fn(gpointer) -> *mut JSCValue>;
 pub type JSCOptionsFunc = Option<unsafe extern "C" fn(*const c_char, JSCOptionType, *const c_char, gpointer) -> gboolean>;
-pub type JSCPropertyGetter = Option<unsafe extern "C" fn(gpointer, gpointer) -> *mut JSCValue>;
-pub type JSCPropertySetter = Option<unsafe extern "C" fn(gpointer, *mut JSCValue, gpointer)>;
-pub type JSCSetter = Option<unsafe extern "C" fn(*mut JSCValue, gpointer)>;
-pub type JSCVariadicFunction = Option<unsafe extern "C" fn(*mut glib::GPtrArray, gpointer) -> *mut JSCValue>;
 
 // Records
 #[repr(C)]
-pub struct _JSCClassClass(c_void);
+pub struct JSCClassClass(c_void);
 
-pub type JSCClassClass = *mut _JSCClassClass;
+impl ::std::fmt::Debug for JSCClassClass {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("JSCClassClass @ {:?}", self as *const _))
+         .finish()
+    }
+}
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -129,9 +127,14 @@ impl ::std::fmt::Debug for JSCContextClass {
 }
 
 #[repr(C)]
-pub struct _JSCContextPrivate(c_void);
+pub struct JSCContextPrivate(c_void);
 
-pub type JSCContextPrivate = *mut _JSCContextPrivate;
+impl ::std::fmt::Debug for JSCContextPrivate {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("JSCContextPrivate @ {:?}", self as *const _))
+         .finish()
+    }
+}
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -156,9 +159,14 @@ impl ::std::fmt::Debug for JSCExceptionClass {
 }
 
 #[repr(C)]
-pub struct _JSCExceptionPrivate(c_void);
+pub struct JSCExceptionPrivate(c_void);
 
-pub type JSCExceptionPrivate = *mut _JSCExceptionPrivate;
+impl ::std::fmt::Debug for JSCExceptionPrivate {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("JSCExceptionPrivate @ {:?}", self as *const _))
+         .finish()
+    }
+}
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -183,9 +191,14 @@ impl ::std::fmt::Debug for JSCValueClass {
 }
 
 #[repr(C)]
-pub struct _JSCValuePrivate(c_void);
+pub struct JSCValuePrivate(c_void);
 
-pub type JSCValuePrivate = *mut _JSCValuePrivate;
+impl ::std::fmt::Debug for JSCValuePrivate {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("JSCValuePrivate @ {:?}", self as *const _))
+         .finish()
+    }
+}
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -210,9 +223,14 @@ impl ::std::fmt::Debug for JSCVirtualMachineClass {
 }
 
 #[repr(C)]
-pub struct _JSCVirtualMachinePrivate(c_void);
+pub struct JSCVirtualMachinePrivate(c_void);
 
-pub type JSCVirtualMachinePrivate = *mut _JSCVirtualMachinePrivate;
+impl ::std::fmt::Debug for JSCVirtualMachinePrivate {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("JSCVirtualMachinePrivate @ {:?}", self as *const _))
+         .finish()
+    }
+}
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -237,24 +255,34 @@ impl ::std::fmt::Debug for JSCWeakValueClass {
 }
 
 #[repr(C)]
-pub struct _JSCWeakValuePrivate(c_void);
+pub struct JSCWeakValuePrivate(c_void);
 
-pub type JSCWeakValuePrivate = *mut _JSCWeakValuePrivate;
-
-#[repr(C)]
-pub struct _JSGlobalContextRef(c_void);
-
-pub type JSGlobalContextRef = *mut _JSGlobalContextRef;
-
-#[repr(C)]
-pub struct _JSStringRef(c_void);
-
-pub type JSStringRef = *mut _JSStringRef;
+impl ::std::fmt::Debug for JSCWeakValuePrivate {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("JSCWeakValuePrivate @ {:?}", self as *const _))
+         .finish()
+    }
+}
 
 #[repr(C)]
-pub struct _JSValueRef(c_void);
+pub struct JSGlobalContextRef(c_void);
 
-pub type JSValueRef = *mut _JSValueRef;
+impl ::std::fmt::Debug for JSGlobalContextRef {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("JSGlobalContextRef @ {:?}", self as *const _))
+         .finish()
+    }
+}
+
+#[repr(C)]
+pub struct JSValueRef(c_void);
+
+impl ::std::fmt::Debug for JSValueRef {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("JSValueRef @ {:?}", self as *const _))
+         .finish()
+    }
+}
 
 // Classes
 #[repr(C)]
@@ -345,47 +373,16 @@ impl ::std::fmt::Debug for JSCWeakValue {
 extern "C" {
 
     //=========================================================================
-    // JSGlobalContextRef
-    //=========================================================================
-    pub fn JSGlobalContextRetain(context: JSGlobalContextRef);
-    pub fn JSGlobalContextRelease(context: JSGlobalContextRef);
-
-    //=========================================================================
-    // JSStringRef
-    //=========================================================================
-    pub fn JSStringRetain(string: JSStringRef);
-    pub fn JSStringRelease(string: JSStringRef);
-    pub fn JSStringGetMaximumUTF8CStringSize(string: JSStringRef) -> size_t;
-    pub fn JSStringGetUTF8CString(string: JSStringRef, buffer: *mut *mut c_char, buffer_size: size_t) -> size_t;
-
-    //=========================================================================
-    // JSValueRef
-    //=========================================================================
-    pub fn JSValueIsArray(ctx: JSGlobalContextRef, value: JSValueRef) -> gboolean;
-    pub fn JSValueProtect(context: JSGlobalContextRef, value: JSValueRef);
-    pub fn JSValueUnprotect(context: JSGlobalContextRef, value: JSValueRef);
-    pub fn JSValueIsBoolean(ctx: JSGlobalContextRef, value: JSValueRef) -> gboolean;
-    pub fn JSValueIsDate(ctx: JSGlobalContextRef, value: JSValueRef) -> gboolean;
-    pub fn JSValueIsObject(ctx: JSGlobalContextRef, value: JSValueRef) -> gboolean;
-    pub fn JSValueIsNull(ctx: JSGlobalContextRef, value: JSValueRef) -> gboolean;
-    pub fn JSValueIsNumber(ctx: JSGlobalContextRef, value: JSValueRef) -> gboolean;
-    pub fn JSValueIsString(ctx: JSGlobalContextRef, value: JSValueRef) -> gboolean;
-    pub fn JSValueIsUndefined(ctx: JSGlobalContextRef, value: JSValueRef) -> gboolean;
-    pub fn JSValueToBoolean(ctx: JSGlobalContextRef, value: JSValueRef) -> gboolean;
-    pub fn JSValueToNumber(ctx: JSGlobalContextRef, value: JSValueRef, exception: *mut *mut JSCException) -> c_double;
-    pub fn JSValueToStringCopy(ctx: JSGlobalContextRef, value: JSValueRef, exception: *mut JSValueRef) -> JSStringRef;
-
-    //=========================================================================
     // JSCClass
     //=========================================================================
     pub fn jsc_class_get_type() -> GType;
     pub fn jsc_class_add_constructor(jsc_class: *mut JSCClass, name: *const c_char, callback: gobject::GCallback, user_data: gpointer, destroy_notify: glib::GDestroyNotify, return_type: GType, n_params: c_uint, ...) -> *mut JSCValue;
-    pub fn jsc_class_add_constructor_variadic(jsc_class: *mut JSCClass, name: *const c_char, callback: JSCConstructor, user_data: gpointer, destroy_notify: glib::GDestroyNotify, return_type: GType) -> *mut JSCValue;
+    pub fn jsc_class_add_constructor_variadic(jsc_class: *mut JSCClass, name: *const c_char, callback: gobject::GCallback, user_data: gpointer, destroy_notify: glib::GDestroyNotify, return_type: GType) -> *mut JSCValue;
     pub fn jsc_class_add_constructorv(jsc_class: *mut JSCClass, name: *const c_char, callback: gobject::GCallback, user_data: gpointer, destroy_notify: glib::GDestroyNotify, return_type: GType, n_parameters: c_uint, parameter_types: *mut GType) -> *mut JSCValue;
     pub fn jsc_class_add_method(jsc_class: *mut JSCClass, name: *const c_char, callback: gobject::GCallback, user_data: gpointer, destroy_notify: glib::GDestroyNotify, return_type: GType, n_params: c_uint, ...);
-    pub fn jsc_class_add_method_variadic(jsc_class: *mut JSCClass, name: *const c_char, callback: JSCClassVariadicFunction, user_data: gpointer, destroy_notify: glib::GDestroyNotify, return_type: GType);
+    pub fn jsc_class_add_method_variadic(jsc_class: *mut JSCClass, name: *const c_char, callback: gobject::GCallback, user_data: gpointer, destroy_notify: glib::GDestroyNotify, return_type: GType);
     pub fn jsc_class_add_methodv(jsc_class: *mut JSCClass, name: *const c_char, callback: gobject::GCallback, user_data: gpointer, destroy_notify: glib::GDestroyNotify, return_type: GType, n_parameters: c_uint, parameter_types: *mut GType);
-    pub fn jsc_class_add_property(jsc_class: *mut JSCClass, name: *const c_char, property_type: GType, getter: JSCPropertyGetter, setter: JSCPropertySetter, user_data: gpointer, destroy_notify: glib::GDestroyNotify);
+    pub fn jsc_class_add_property(jsc_class: *mut JSCClass, name: *const c_char, property_type: GType, getter: gobject::GCallback, setter: gobject::GCallback, user_data: gpointer, destroy_notify: glib::GDestroyNotify);
     pub fn jsc_class_get_name(jsc_class: *mut JSCClass) -> *const c_char;
     pub fn jsc_class_get_parent(jsc_class: *mut JSCClass) -> *mut JSCClass;
 
@@ -443,7 +440,7 @@ extern "C" {
     pub fn jsc_value_new_array_from_strv(context: *mut JSCContext, strv: *const *const c_char) -> *mut JSCValue;
     pub fn jsc_value_new_boolean(context: *mut JSCContext, value: gboolean) -> *mut JSCValue;
     pub fn jsc_value_new_function(context: *mut JSCContext, name: *const c_char, callback: gobject::GCallback, user_data: gpointer, destroy_notify: glib::GDestroyNotify, return_type: GType, n_params: c_uint, ...) -> *mut JSCValue;
-    pub fn jsc_value_new_function_variadic(context: *mut JSCContext, name: *const c_char, callback: JSCVariadicFunction, user_data: gpointer, destroy_notify: glib::GDestroyNotify, return_type: GType) -> *mut JSCValue;
+    pub fn jsc_value_new_function_variadic(context: *mut JSCContext, name: *const c_char, callback: gobject::GCallback, user_data: gpointer, destroy_notify: glib::GDestroyNotify, return_type: GType) -> *mut JSCValue;
     pub fn jsc_value_new_functionv(context: *mut JSCContext, name: *const c_char, callback: gobject::GCallback, user_data: gpointer, destroy_notify: glib::GDestroyNotify, return_type: GType, n_parameters: c_uint, parameter_types: *mut GType) -> *mut JSCValue;
     pub fn jsc_value_new_null(context: *mut JSCContext) -> *mut JSCValue;
     pub fn jsc_value_new_number(context: *mut JSCContext, number: c_double) -> *mut JSCValue;
@@ -465,7 +462,7 @@ extern "C" {
     pub fn jsc_value_is_object(value: *mut JSCValue) -> gboolean;
     pub fn jsc_value_is_string(value: *mut JSCValue) -> gboolean;
     pub fn jsc_value_is_undefined(value: *mut JSCValue) -> gboolean;
-    pub fn jsc_value_object_define_property_accessor(value: *mut JSCValue, property_name: *const c_char, flags: JSCValuePropertyFlags, property_type: GType, getter: JSCGetter, setter: JSCSetter, user_data: gpointer, destroy_notify: glib::GDestroyNotify);
+    pub fn jsc_value_object_define_property_accessor(value: *mut JSCValue, property_name: *const c_char, flags: JSCValuePropertyFlags, property_type: GType, getter: gobject::GCallback, setter: gobject::GCallback, user_data: gpointer, destroy_notify: glib::GDestroyNotify);
     pub fn jsc_value_object_define_property_data(value: *mut JSCValue, property_name: *const c_char, flags: JSCValuePropertyFlags, property_value: *mut JSCValue);
     pub fn jsc_value_object_delete_property(value: *mut JSCValue, name: *const c_char) -> gboolean;
     pub fn jsc_value_object_enumerate_properties(value: *mut JSCValue) -> *mut *mut c_char;
@@ -499,6 +496,16 @@ extern "C" {
     //=========================================================================
     // Other functions
     //=========================================================================
+    pub fn JSValueIsArray(ctx: JSGlobalContextRef, value: JSValueRef) -> gboolean;
+    pub fn JSValueIsBoolean(ctx: JSGlobalContextRef, value: JSValueRef) -> gboolean;
+    pub fn JSValueIsDate(ctx: JSGlobalContextRef, value: JSValueRef) -> gboolean;
+    pub fn JSValueIsObject(ctx: JSGlobalContextRef, value: JSValueRef) -> gboolean;
+    pub fn JSValueIsNull(ctx: JSGlobalContextRef, value: JSValueRef) -> gboolean;
+    pub fn JSValueIsNumber(ctx: JSGlobalContextRef, value: JSValueRef) -> gboolean;
+    pub fn JSValueIsString(ctx: JSGlobalContextRef, value: JSValueRef) -> gboolean;
+    pub fn JSValueIsUndefined(ctx: JSGlobalContextRef, value: JSValueRef) -> gboolean;
+    pub fn JSValueToBoolean(ctx: JSGlobalContextRef, value: JSValueRef) -> gboolean;
+    pub fn JSValueToNumber(ctx: JSGlobalContextRef, value: JSValueRef, exception: *mut *mut JSCException) -> c_double;
     pub fn jsc_get_major_version() -> c_uint;
     pub fn jsc_get_micro_version() -> c_uint;
     pub fn jsc_get_minor_version() -> c_uint;
