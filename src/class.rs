@@ -80,7 +80,7 @@ impl<T> Class<T> {
         unsafe {
             let mut value = glib::Value::from_type(<Context as StaticType>::static_type());
             gobject_sys::g_object_get_property(self.native.as_ptr() as *mut gobject_sys::GObject, b"context\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get()
+            value.get().unwrap()
         }
     }
 }
