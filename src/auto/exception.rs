@@ -2,7 +2,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use Context;
+use crate::Context;
 use glib::GString;
 use glib::object::IsA;
 use glib::translate::*;

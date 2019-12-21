@@ -2,14 +2,14 @@ use glib::object::IsA;
 use glib::translate::*;
 use glib_sys::gpointer;
 use libc::c_void;
-use AsNativeVTable;
-use ChildOf;
-use Class;
-use ClassExt;
-use Context;
-use MetaClass;
-use NativeClass;
-use Value;
+use crate::AsNativeVTable;
+use crate::ChildOf;
+use crate::Class;
+use crate::ClassExt;
+use crate::Context;
+use crate::MetaClass;
+use crate::NativeClass;
+use crate::Value;
 
 pub trait ContextExtManual: 'static {
     fn evaluate_in_object<T>(
@@ -130,11 +130,15 @@ fn capture_as_parent<Child: ChildOf<Parent>, Parent>() -> fn(*mut c_void) -> *mu
 #[cfg(test)]
 mod tests {
     use super::*;
-    use ValueExt;
+    use serial_test_derive::serial;
+    use crate::ValueExt;
 
     #[test]
+    #[serial]
     fn evaluate_in_object() {
-        gtk::init().unwrap();
+        if !::gtk::is_initialized() {
+            gtk::init().unwrap();
+        }
         let ctx = Context::new();
         let (_res, obj) = ctx.evaluate_in_object::<&str>("var x = 42;", None, None, "", 1);
         assert_eq!(obj.object_get_property("x").unwrap().to_int32(), 42);

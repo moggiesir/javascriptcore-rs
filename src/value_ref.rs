@@ -2,7 +2,7 @@ use glib::translate::*;
 use javascriptcore_sys::*;
 use std::ops::{Deref, DerefMut};
 
-use GlobalContextRef;
+use crate::GlobalContextRef;
 
 pub struct RefWrapper {
     context: JSGlobalContextRef,

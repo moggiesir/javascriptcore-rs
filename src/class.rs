@@ -14,8 +14,8 @@ use std::borrow::Borrow;
 use std::fmt;
 use std::marker::PhantomData;
 use std::ops::{Deref, DerefMut};
-use Context;
-use Value;
+use crate::Context;
+use crate::Value;
 
 use javascriptcore_sys::{JSCClass, JSCValue};
 
@@ -115,7 +115,7 @@ pub unsafe fn unwrap(this: &Instance, target: *mut javascriptcore_sys::JSCClass)
 }
 
 pub trait ClassConstructor<T> {
-    fn add_to(self, &Class<T>, Option<&str>) -> Value;
+    fn add_to(self, _: &Class<T>, _: Option<&str>) -> Value;
 }
 
 pub struct Constructor<T, P: Fn(Vec<Value>) -> T + 'static> {
@@ -440,10 +440,11 @@ impl<T: 'static> ClassExt<T> for Class<T> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use ContextExt;
-    use ContextExtManual;
-    use ExceptionExt;
-    use ValueExt;
+    use serial_test_derive::serial;
+    use crate::ContextExt;
+    use crate::ContextExtManual;
+    use crate::ExceptionExt;
+    use crate::ValueExt;
 
     #[derive(Debug)]
     struct Foo {
@@ -462,8 +463,11 @@ mod tests {
     }
 
     #[test]
+    #[serial]
     fn test_add() {
-        gtk::init().unwrap();
+        if !::gtk::is_initialized() {
+            gtk::init().unwrap();
+        }
         let ctx = Context::new();
         let class = ctx.register_class("Foo", None);
         let cons = class.add_constructor(Some("Foo"), |_values| Foo { x: 0 });
@@ -499,8 +503,11 @@ mod tests {
     }
 
     #[test]
+    #[serial]
     fn test_subclass() {
-        gtk::init().unwrap();
+        if !::gtk::is_initialized() {
+            gtk::init().unwrap();
+        }
         let ctx = Context::new();
         let class = ctx.register_class("Foo", None);
         let subclass = ctx.register_subclass("Bar", &class, None);

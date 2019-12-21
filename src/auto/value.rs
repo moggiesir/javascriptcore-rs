@@ -2,8 +2,8 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use Context;
-use ValuePropertyFlags;
+use crate::Context;
+use crate::ValuePropertyFlags;
 use glib;
 use glib::GString;
 use glib::object::IsA;

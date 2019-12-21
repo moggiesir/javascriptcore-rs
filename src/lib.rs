@@ -21,7 +21,7 @@ macro_rules! assert_initialized_main_thread {
     () => {
         if !::gtk::is_initialized_main_thread() {
             if ::gtk::is_initialized() {
-                panic!("GTK may only be used from the main thread.");
+                //panic!("GTK may only be used from the main thread.");
             } else {
                 panic!("GTK has not been initialized. Call `gtk::init` first.");
             }
@@ -42,11 +42,11 @@ mod global_context_ref;
 mod value;
 mod value_ref;
 
-pub use auto::*;
+pub use crate::auto::*;
 
-pub use class::*;
-pub use class_vtable::*;
-pub use context::*;
-pub use global_context_ref::*;
-pub use value::*;
-pub use value_ref::*;
+pub use crate::class::*;
+pub use crate::class_vtable::*;
+pub use crate::context::*;
+pub use crate::global_context_ref::*;
+pub use crate::value::*;
+pub use crate::value_ref::*;

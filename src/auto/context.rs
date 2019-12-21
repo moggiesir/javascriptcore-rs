@@ -2,11 +2,11 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use CheckSyntaxMode;
-use CheckSyntaxResult;
-use Exception;
-use Value;
-use VirtualMachine;
+use crate::CheckSyntaxMode;
+use crate::CheckSyntaxResult;
+use crate::Exception;
+use crate::Value;
+use crate::VirtualMachine;
 use glib::object::IsA;
 use glib::translate::*;
 use javascriptcore_sys;

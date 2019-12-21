@@ -3,7 +3,7 @@ use glib::types::{StaticType, Type};
 use glib_sys::gpointer;
 use javascriptcore_sys::JSCValue;
 use std::convert::TryInto;
-use Value;
+use crate::Value;
 
 #[macro_export]
 macro_rules! js_function {
@@ -79,9 +79,10 @@ macro_rules! js_function {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use Context;
-    use ContextExtManual;
-    use ValueExt;
+    use serial_test_derive::serial;
+    use crate::Context;
+    use crate::ContextExtManual;
+    use crate::ValueExt;
 
     #[derive(Debug, Clone)]
     struct Bar {
@@ -100,6 +101,7 @@ mod tests {
     }
 
     #[test]
+    #[serial]
     fn foo() {
         let ctx = Context::new();
         let foo_class = ctx.register_class("Foo", None);

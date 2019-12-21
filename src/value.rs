@@ -10,11 +10,11 @@ use std::collections::HashMap;
 use std::convert::TryInto;
 use std::fmt;
 use std::vec::Vec;
-use Class;
-use Context;
-use Value;
-use ValueExt;
-use ValuePropertyFlags;
+use crate::Class;
+use crate::Context;
+use crate::Value;
+use crate::ValueExt;
+use crate::ValuePropertyFlags;
 
 pub trait AsJsValue {
     fn as_js_value(&self, context: &Context) -> Value;
@@ -274,11 +274,15 @@ impl<O: IsA<Value>> ValueExtManual for O {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use ContextExt;
+    use serial_test_derive::serial;
+    use crate::ContextExt;
 
     #[test]
+    #[serial]
     fn new_array() {
-        gtk::init().unwrap();
+        if !::gtk::is_initialized() {
+            gtk::init().unwrap();
+        }
         let ctx = Context::new();
 
         let s = String::from("blah");

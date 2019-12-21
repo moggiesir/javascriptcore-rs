@@ -10,10 +10,10 @@ use glib::Value as GValue;
 use gobject_sys;
 use javascriptcore_sys::{JSCClass, JSCClassVTable, JSCContext, JSCValue};
 use std::fmt;
-use Class;
-use Context;
-use NativeClass;
-use Value;
+use crate::Class;
+use crate::Context;
+use crate::NativeClass;
+use crate::Value;
 
 pub trait AsNativeVTable<T> {
     unsafe fn as_vtable(&self) -> JSCClassVTable;
@@ -128,7 +128,8 @@ impl fmt::Display for ClassVTable {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use ContextExtManual;
+    use serial_test_derive::serial;
+    use crate::ContextExtManual;
 
     struct Foo {}
 
@@ -143,8 +144,11 @@ mod tests {
     });
 
     #[test]
+    #[serial]
     fn subclass() {
-        gtk::init().unwrap();
+        if !::gtk::is_initialized() {
+            gtk::init().unwrap();
+        }
         let ctx = Context::new();
         ctx.register_class("Bar", Some(MYVTABLE));
     }
